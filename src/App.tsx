@@ -1,34 +1,89 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
-import './App.css';
+import { useDetectDevice } from './hooks/useDetectDevice';
+import { useSystem } from './hooks/useSystem';
+import { useThemeContext } from './hooks/useTheme';
+
+import Countdown from './components/Countdown';
+import Header from './components/Header';
+import MobileNotSupported from './components/MobileNotSupported';
+import ModalComponent from './components/Modal';
+import ModalContent from './components/ModalContent';
+import Restart from './components/Restart';
+import TimeCategory from './components/TimeCategory';
+import UserTyped from './components/UserTyped';
+import WordContainer from './components/WordContainer';
+import WordWrapper from './components/WordWrapper';
 
 function App() {
-  const [count, setCount] = useState(0);
+  const { systemTheme } = useThemeContext();
+  const {
+    charTyped,
+    countdown,
+    word,
+    wordContainerFocused,
+    modalIsOpen,
+    history,
+    time,
+    results,
+    resetCountdown,
+    setLocalStorageValue,
+    setWordContainerFocused,
+    restartTest,
+    checkCharacter,
+    closeModal,
+    setTime,
+  } = useSystem();
+
+  const isMobile = useDetectDevice();
 
   return (
-    <>
-      <div>
-        <a href='https://vitejs.dev' target='_blank'>
-          <img src={viteLogo} className='logo' alt='Vite logo' />
-        </a>
-        <a href='https://react.dev' target='_blank'>
-          <img src={reactLogo} className='logo react' alt='React logo' />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className='card'>
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className='read-the-docs'>
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div
+      className='h-screen w-full overflow-y-auto'
+      style={{
+        backgroundColor: systemTheme.background.primary,
+        color: systemTheme.text.primary,
+      }}
+    >
+      <main className='mx-auto flex h-full max-w-5xl flex-col gap-4 px-4 xl:px-0'>
+        {isMobile ? (
+          <MobileNotSupported />
+        ) : (
+          <>
+            <Header restart={restartTest} closeAboutModal={closeModal} />
+            <TimeCategory
+              time={time}
+              setLocalStorage={setLocalStorageValue}
+              setTime={setTime}
+              restart={restartTest}
+            />
+            <Countdown countdown={countdown} reset={resetCountdown} />
+            <WordWrapper
+              focused={wordContainerFocused}
+              setFocused={setWordContainerFocused}
+            >
+              <WordContainer word={word} />
+              <UserTyped
+                word={word}
+                check={checkCharacter}
+                charTyped={charTyped}
+              />
+            </WordWrapper>
+            <Restart restart={restartTest} />
+
+            <ModalComponent
+              type='result'
+              isOpen={modalIsOpen}
+              onRequestClose={closeModal}
+            >
+              <ModalContent
+                totalTime={time}
+                results={results}
+                history={history}
+              />
+            </ModalComponent>
+          </>
+        )}
+      </main>
+    </div>
   );
 }
 
