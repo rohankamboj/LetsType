@@ -92,9 +92,9 @@ export const theme = {
       secondary: '#000C13',
     },
     text: {
-      primary: '#235A68',
-      secondary: '#00E980',
-      title: '#00E980',
+      primary: '#ffffff',
+      secondary: '#ffffff',
+      title: '#ffffff',
     },
   },
   paper: {

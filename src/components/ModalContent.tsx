@@ -167,7 +167,7 @@ const ModalContent = ({ totalTime, history, results }: ModalContentProps) => {
         >
           <FaCameraRetro className=' text-xl' />
           <span className='text-lg hover:underline'>
-            Screenshot your results and share to your friends🔥
+            Screenshot your results
           </span>
           <div
             className='rounded-md'

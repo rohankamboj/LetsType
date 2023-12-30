@@ -2,7 +2,6 @@ import { useDetectDevice } from './hooks/useDetectDevice';
 import { useSystem } from './hooks/useSystem';
 import { useThemeContext } from './hooks/useTheme';
 
-import Countdown from './components/Countdown';
 import Header from './components/Header';
 import MobileNotSupported from './components/MobileNotSupported';
 import ModalComponent from './components/Modal';
@@ -17,20 +16,16 @@ function App() {
   const { systemTheme } = useThemeContext();
   const {
     charTyped,
-    countdown,
     word,
     wordContainerFocused,
     modalIsOpen,
     history,
     time,
     results,
-    resetCountdown,
-    setLocalStorageValue,
     setWordContainerFocused,
     restartTest,
     checkCharacter,
     closeModal,
-    setTime,
   } = useSystem();
 
   const isMobile = useDetectDevice();
@@ -49,13 +44,8 @@ function App() {
         ) : (
           <>
             <Header restart={restartTest} closeAboutModal={closeModal} />
-            <TimeCategory
-              time={time}
-              setLocalStorage={setLocalStorageValue}
-              setTime={setTime}
-              restart={restartTest}
-            />
-            <Countdown countdown={countdown} reset={resetCountdown} />
+            <TimeCategory />
+
             <WordWrapper
               focused={wordContainerFocused}
               setFocused={setWordContainerFocused}
