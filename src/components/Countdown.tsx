@@ -22,7 +22,7 @@ const Countdown = ({ countdown, reset }: CountdownProps) => {
   return (
     <div className='flex justify-end'>
       <div
-        className=' rounded-lg p-3'
+        className='rounded-lg p-3'
         style={{
           backgroundColor: systemTheme.background.secondary,
         }}
